@@ -1,6 +1,9 @@
 {% extends 'songreccom/main.html' %}
 {% block body %}
+
 <div class="container ">
+    <a href="{% url 'home'%}" class="btn" >Back</a>
+
 <h1>Welcome to Quiz</h1>
  
 <div align="right " id="displaytimer"><b>Timer: 0 seconds</b></div>
@@ -37,16 +40,43 @@
                 {{q.op4}}
             </label>
         </div>
+<!--         <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option4">
+            <label class="form-check-label" for="gridRadios2">
+                {{q.op5}}
+            </label>
+        </div> -->
         <br>
     </div>    
     {% endfor %}
     <input id='timer' type='hidden' name="timer" value="">
     <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
+
+<!--     <input type="submit" onclick="displayRadioValue()">Submit</input>
+    <div id="result"></div> -->
+
+
+   <a href="{% url 'result'%}" class="btn">submit</a>
   </form>
     {% block script %}
         <script>
- 
+            
+            /* to get input from radio buttons */
+            function displayRadioValue() {
+                document.getElementById("result").innerHTML = "";
+                var e = document.getElementsByTagName('input');
+
+                for (var i = 0; i < e.length; i++) {
+                    if( e[i].type = "radio"){
+                        if (e[i].checked) {
+                            document.getElementById("result").innerHTML +=e[i].name + "value: " +=e[i].value +"<br>";
+                        }
+                    }
+                }
+            }
+
+
+           /* for timer */
             console.log('hello world')
             const timer=document.getElementById('displaytimer')
             console.log(timer.textContent)
