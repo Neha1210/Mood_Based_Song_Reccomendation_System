@@ -9,87 +9,125 @@
 <div align="right " id="displaytimer"><b>Timer: 0 seconds</b></div>
  <hr>
  <br>
- <form method='post' action=''>
-    {% csrf_token %}
-    {% for q  in q%}
-    <div class="form-group">
-      <label for="question">{{forloop.counter}}. {{q.question}}</label>
-    </div>
-    <div class="form-check">
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option1">
-            <label class="form-check-label" for="gridRadios1">
-                {{q.op1}}
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option2">
-            <label class="form-check-label" for="gridRadios2">
-                {{q.op2}}
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios1" value="option3">
-            <label class="form-check-label" for="gridRadios1">
-                {{q.op3}}
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option4">
-            <label class="form-check-label" for="gridRadios2">
-                {{q.op4}}
-            </label>
-        </div>
-<!--         <div class="form-check">
-            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option4">
-            <label class="form-check-label" for="gridRadios2">
-                {{q.op5}}
-            </label>
-        </div> -->
-        <br>
-    </div>    
-    {% endfor %}
-    <input id='timer' type='hidden' name="timer" value="">
-    <br>
 
-<!--     <input type="submit" onclick="displayRadioValue()">Submit</input>
+ <div>
+     <!-- {% for i  in q%}
+     <table>
+         <tr>
+             <td>{{forloop.counter}}. {{i.question}}</td>
+         </tr>
+         <tr>
+             <td><input type="radio" name="{{i.question}}"  value="{{i.op1}}">{{i.op1}}</td>
+         </tr>
+         <tr>
+             <td><input type="radio" name="{{i.question}}" value="{{i.op2}}">{{i.op2}}</td>
+         </tr>
+         <tr>
+             <td><input type="radio" name="{{i.question}}" value="{{i.op3}}">{{i.op3}}</td>
+         </tr>
+         <tr>
+             <td><input type="radio" name="{{i.question}}" value="{{i.op4}}">{{i.op4}}</td>
+         </tr>
+         <tr>
+             <td><input type="radio" name="{{i.question}}" value="{{i.op5}}">{{i.op5}}</td>
+         </tr>
+     </table>
+     <br>
+     {% endfor %}
+    <input type="submit" onclick="displayRadioValue()" >
     <div id="result"></div> -->
 
 
-   <a href="{% url 'result'%}" class="btn">submit</a>
-  </form>
-    {% block script %}
-        <script>
-            
-            /* to get input from radio buttons */
-            function displayRadioValue() {
-                document.getElementById("result").innerHTML = "";
-                var e = document.getElementsByTagName('input');
+    <form method="POST">
+        {% for i  in q%}
+            {% csrf_token %}
 
-                for (var i = 0; i < e.length; i++) {
-                    if( e[i].type = "radio"){
-                        if (e[i].checked) {
-                            document.getElementById("result").innerHTML +=e[i].name + "value: " +=e[i].value +"<br>";
+        {{forloop.counter}}. {{i.question}}<br>
+            <input type="radio" name="{{i.question}}"  value="{{i.op1}}">{{i.op1}}<br>
+            <input type="radio" name="{{i.question}}" value="{{i.op2}}">{{i.op2}}<br>
+            <input type="radio" name="{{i.question}}" value="{{i.op3}}">{{i.op3}}<br>
+            <input type="radio" name="{{i.question}}" value="{{i.op4}}">{{i.op4}}<br>
+            <input type="radio" name="{{i.question}}" value="{{i.op5}}">{{i.op5}}
+            <hr>
+        {% endfor %}
+    </form>
+    <!-- if u add submit button inside form u will get error -->
+    <input type="submit" onclick="displayRadioValue()" >
+    <a href="{% url 'result'%}">See the results</a>
+    <div id="result">
+ </div>
+   {% block script %}
+        <script>
+
+            /* function for getting input clicked by user */
+            function displayRadioValue() {
+            var array = [];
+
+                document.getElementById("result").innerHTML= "";
+                var e = document.getElementsByTagName("input");
+                for (var i = 0; i < e.length; i++) 
+                {
+                    if(e[i].type == "radio")
+                    {
+                        if (e[i].checked) 
+                        {
+                            array.push(e[i].value);
+                            console.log(array);
+                            document.getElementById("result").innerHTML+=" <br> Q"+e[i].name + "<br> ans:" +e[i].value+"<br><br>";
                         }
                     }
                 }
+
+
+
+                var url = '/songreccom/quiz'
+
+                fetch(url ,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',     
+                        'X-CSRFToken':csrftoken,
+
+                    },
+                    body: JSON.stringify(array),
+                })
+                .then((response) =>{
+                    return response.json();
+                })
+                .then((data)=>{
+                    console.log('data:',array)
+                    location.reload()
+                })
+
+
+
+        
+                                      //  $.ajax({
+                                      
+
+                                      //  url: "{% url 'quiz' %}",
+                                      
+
+                                      //  type: 'POST',
+                                      
+
+                                      //  data: {'array': JSON.stringify(array)},
+                                      
+
+                                      //  success: function(response){
+                                      
+
+                                      //      console.log(response);
+                                      
+
+                                      //  }
+                                      
+
+                                      // });
             }
 
 
-           /* for timer */
-            console.log('hello world')
-            const timer=document.getElementById('displaytimer')
-            console.log(timer.textContent)
-            const inputtag = document.getElementById('timer')
- 
-            t=0
-            setInterval(()=>{
-                t+=1
-                timer.innerHTML ="<b>Timer: " +t+" seconds</b>"
-                inputtag.value = t
-            },1000)
         </script>
     {% endblock script %}
- 
 </div>
 {% endblock body %}

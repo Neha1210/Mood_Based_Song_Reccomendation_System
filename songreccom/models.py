@@ -21,3 +21,10 @@ class dataset(models.Model):
 
     def __str__(self):
         return self.option
+class mood(models.Model):
+    user = models.CharField(max_length=200,null=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    mymood = models.CharField(max_length=200,null=True,blank=True)
+
+    def __str__(self):
+        return self.mymood

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
     
 <head>
@@ -134,5 +134,49 @@
 			form_fields[field].className += ' form-control'
 		}
 	</script>
+</body>
+</html>
+ -->
+ <!DOCTYPE html>
+ {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleston.css' %}">
+    <title>Registration FORM</title>
+    
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <form action="" class="form">
+            <img src="img/registation logo.jfif " alt=""> 
+            <h2>Registration Form</h2>
+
+            <div class="input-group">
+                <input type="text" name="loginUser" id="loginUser" required>
+                <label for="loginUser">User Name</label>
+            </div>
+
+            <div class="input-group">
+                <input type="email" name="loginpassword" id="loginpassword" required>
+                <label for="loginpassword">email</label>
+            </div>
+            <div class="input-group">
+                <input type="password" name="loginpassword" id="loginpassword" required>
+                <label for="loginpassword">password</label>
+            </div>
+            <div class="input-group">
+                <input type="password" name="loginpassword" id="loginpassword" required>
+                <label for="loginpassword">Sign Up</label>
+            </div>
+            
+            <input type="submit" value="Login" class="submit-btn">
+            <a href="#forgot-pw" class="forgot-pass">I Already have Account</a>  
+        </form>
+    </div>
+    
 </body>
 </html>

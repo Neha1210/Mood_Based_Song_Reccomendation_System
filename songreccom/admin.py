@@ -9,4 +9,9 @@ class quizAdmin(ImportExportMixin, admin.ModelAdmin):
 
 admin.site.register(quiz, quizAdmin)
 
-admin.site.register(dataset)
+class datasetAdmin(ImportExportMixin, admin.ModelAdmin):
+    list_display = ['emotion',  'option']
+
+
+admin.site.register(dataset, datasetAdmin)
+admin.site.register(mood)
